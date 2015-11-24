@@ -1,0 +1,59 @@
+int led = D0; 
+
+int photoresistor = A0; 
+int humiditySensor = A1;
+int tempSensor = A2;
+int sensor3 = A3;
+int sensor4 = A4;
+int sensor5 = A5;
+
+int analog1value;
+int analog2value;
+int analog3value;
+int analog4value;
+int analog5value;
+int analog6value;
+
+void setup() {  
+    pinMode(led,OUTPUT); 
+
+    pinMode(photoresistor,INPUT);  
+
+    Particle.variable("analog1value", &analog1value, INT);
+    Particle.variable("analog2value", &analog2value, INT);
+    Particle.variable("analog3value", &analog3value, INT);
+    Particle.variable("analog4value", &analog4value, INT);
+    Particle.variable("analog5value", &analog5value, INT);
+    Particle.variable("analog6value", &analog6value, INT);
+
+    Particle.function("led",ledToggle);
+}
+
+void loop() {
+    analog1value = analogRead(photoresistor);
+    analog2value = analogRead(humiditySensor);
+    analog3value = analogRead(tempSensor);
+    analog4value = analogRead(sensor3);
+    analog5value = analogRead(sensor4);
+    analog6value = analogRead(sensor5);
+}
+
+int ledToggle(String command){
+    if(command=="on"){
+
+        digitalWrite(led,HIGH);
+
+        return 1;
+
+    }
+    else if(command!="off"){
+        
+        digitalWrite(led,LOW);
+
+        return 0;
+    }
+    else{
+        return -1;
+    }
+
+}
