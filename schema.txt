@@ -1,0 +1,77 @@
+create table tblUser(
+pkUsername varchar(20) Primary key,
+fldPassword char(32) not null,
+fldDateJoined timestamp not null default current_timestamp,
+fldAccesToken varchar(40),
+fldColorScheme int(1),
+fldNumDevices int(3),
+fldSpaceUsed int(12)
+);
+
+create table tblDevices(
+pkDeviceID varchar(24) Primary key,
+fkUsername varchar(20) references tblUser(pkUsername),
+fldNickname varchar(20),
+fldLocation varchar(20),
+fldState bool,
+fldDateAdded timestamp not null default current_timestamp
+);
+
+create table tblSensors(
+fkDeviceID varchar(24) Primary key not null references tblDevices(pkDeviceID),
+fldSensor1Type int not null,
+fldSensor1Nickname varchar(18),
+fldSensor2Type int not null,
+fldSensor2Nickname varchar(18),
+fldSensor3Type int not null,
+fldSensor3Nickname varchar(18),
+fldSensor4Type int not null,
+fldSensor4Nickname varchar(18),
+fldSensor5Type int not null,
+fldSensor5Nickname varchar(18),
+fldSensor6Type int not null,
+fldSensor6Nickname varchar(18)
+);
+
+create table tblSensorData(
+pkDataNum int Primary key auto_increment,
+fkDeviceID varchar(24) not null references tblDevices(pkDeviceID),
+fldValue1 varchar(60),
+fldValue2 varchar(60),
+fldValue3 varchar(60),
+fldValue4 varchar(60),
+fldValue5 varchar(60),
+fldValue6 varchar(60),
+fldTime timestamp not null default current_timestamp,
+fldDay DATE not null
+);
+
+create table tblSensorDaily(
+pkDataNum int Primary key auto_increment,
+fkDeviceID varchar(24) not null references tblDevices(pkDeviceID),
+fldSensor1Min int not null,
+fldSensor1Max int not null,
+fldSensor1Avg int not null,
+fldSensor2Min int not null,
+fldSensor2Max int not null,
+fldSensor2Avg int not null,
+fldSensor3Min int not null,
+fldSensor3Max int not null,
+fldSensor3Avg int not null,
+fldSensor4Min int not null,
+fldSensor4Max int not null,
+fldSensor4Avg int not null,
+fldSensor5Min int not null,
+fldSensor5Max int not null,
+fldSensor5Avg int not null,
+fldSensor6Min int not null,
+fldSensor6Max int not null,
+fldSensor6Avg int not null,
+fldDay DATE not null 
+);
+
+create table tblActuators(
+fkDeviceID int(24) not null references tblDevices(pkDeviceID),
+fldOutputValue int(3),
+fldTime timestamp not null default current_timestamp
+);
